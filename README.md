@@ -15,12 +15,12 @@
 
 The backend is split into two specialized microservices to separate **Write** (High Throughput) and **Read** (Low Latency) loads:
 
-### [cite_start]1. Ingestor Service (`/ingestor`) — The Writer [cite: 3]
+### 1. Ingestor Service (`/ingestor`) — The Writer 
 * **Role:** High-throughput gRPC Server.
 * **Logic:** Accepts persistent streams, buffers data, performs "Smart Parsing" (Swap detection), and executes async batch inserts into ClickHouse.
 * **Performance:** Capable of handling **5,000+ TPS** bursts with non-blocking I/O.
 
-### [cite_start]2. API Server (`/api_server`) — The Reader [cite: 13]
+### 2. API Server (`/api_server`) — The Reader 
 * **Role:** Public Gateway for the Frontend (Angular).
 * **Protocol:** Implements **gRPC-Web**, enabling browser clients to connect directly without a proxy.
 * **Logic:** Queries pre-aggregated data from ClickHouse to serve real-time dashboards (TPS, Volume, Active Users).
@@ -33,16 +33,16 @@ We use **ClickHouse** (OLAP) instead of Postgres because traditional row-based D
 
 ### Key Engineering Decisions:
 
-1.  [cite_start]**Materialized Views (Auto-Aggregation):** [cite: 12, 13, 14, 15]
+1.  **Materialized Views (Auto-Aggregation):** 
     * We don't calculate "Total Volume" by scanning millions of rows on every API request.
     * Instead, a `SummingMergeTree` engine aggregates data in the background as it is inserted. API queries are instant (O(1)).
 
-2.  [cite_start]**Data Tiering (TTL):** [cite: 3, 5, 17, 18]
-    * **Raw Transactions:** Stored for **24 hours** (Debug/Deep dive only). [cite_start]Compressed with `ZSTD` to save 80% disk space[cite: 5].
+2.  **Data Tiering (TTL):** 
+    * **Raw Transactions:** Stored for **24 hours** (Debug/Deep dive only). Compressed with `ZSTD` to save 80% disk space.
     * **Parsed Trades:** Stored permanently (Business value).
-    * [cite_start]**Telemetry:** Stored for **3 days** to monitor node health[cite: 17, 18].
+    * **Telemetry:** Stored for **3 days** to monitor node health.
 
-3.  [cite_start]**Dictionary Encoding:** [cite: 8]
+3.  **Dictionary Encoding:**
     * Columns like `platform` (Raydium, Orca) use `LowCardinality(String)` to minimize storage footprint and speed up filtering.
 
 ---
