@@ -1,0 +1,29 @@
+[workspace]
+members = [
+    "ingestor",
+    "api_server"
+]
+resolver = "3"
+
+[workspace.dependencies]
+prost = "0.14.1"
+bytes = "1.11.0"
+tonic = "0.14.2"
+tonic-web = "0.14.2"
+tonic-prost = "0.14.2"
+tokio = { version = "1.48.0", features = ["full"] }
+tokio-stream = { version = "0.1.17", features = ["sync", "net"] }
+clickhouse = { version = "0.14.1", features = ["lz4","time"] }
+anyhow = "1.0"
+hex = "0.4.3"
+tower-http = { version = "0.6.8", features = ["cors"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+log = "0.4"
+env_logger = "0.11"
+solana-sdk = "3.0.0"
+solana-transaction-status = "3.1.4"
+bs58 = "0.5.1"
+
+
+tonic-prost-build = "0.14.2"

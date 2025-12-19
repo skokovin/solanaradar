@@ -1,0 +1,29 @@
+[package]
+name = "ingestor"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+proto-types = { git = "https://github.com/skokovin/proto-types", features = ["ingest"] }
+prost = { workspace = true }
+bytes = { workspace = true }
+tonic = { workspace = true }
+tonic-web = { workspace = true }
+tonic-prost = { workspace = true }
+tokio ={ workspace = true }
+tokio-stream ={ workspace = true }
+clickhouse = { workspace = true }
+anyhow ={ workspace = true }
+hex = { workspace = true }
+tower-http ={ workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+log ={ workspace = true }
+env_logger = { workspace = true }
+# Для парсинга Solana транзакций (в Ingestor)
+solana-sdk = { workspace = true }
+solana-transaction-status = { workspace = true }
+bs58 = { workspace = true }
+
+[build-dependencies]
+tonic-prost-build = { workspace = true }
