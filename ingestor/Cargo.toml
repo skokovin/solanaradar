@@ -20,7 +20,7 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 log ={ workspace = true }
 env_logger = { workspace = true }
-# Для парсинга Solana транзакций (в Ingestor)
+
 solana-sdk = { workspace = true }
 solana-transaction-status = { workspace = true }
 bs58 = { workspace = true }
